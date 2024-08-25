@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     private val recognizer by lazy {
         TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
     }
+    private var overlayBitmap: Bitmap? = null
+    private var overlayCanvas: Canvas? = null
     private var scannedText: Text? = null
 
     private val contentLauncher =
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             uri?.let {
                 with(binding) {
                     photoBitmap = uri.toBitmap(this@MainActivity) ?: return@with
+                    initializeOverlay(photoBitmap)
                     img.setImageBitmap(photoBitmap)
                     processImage(photoBitmap)
                     selectedBoundingBoxes.clear()
@@ -116,34 +121,72 @@ class MainActivity : AppCompatActivity() {
                             selectedTexts.remove(textToToggle)
                             selectedBoundingBoxes.remove(boundingBox)
                             showToast("Deselected: $textToToggle")
+                            clearHighlight(boundingBox)
                         } else {
                             selectedTexts.add(textToToggle)
-                            if (boundingBox != null) {
-                                selectedBoundingBoxes.add(boundingBox)
+                            boundingBox?.let {
+                                selectedBoundingBoxes.add(it)
+                                showToast("Selected: $textToToggle")
+
+                                drawHighlight(boundingBox)
                             }
-                            showToast("Selected: $textToToggle")
-                            updateImageWithHighlights(photoBitmap,boundingBox)
                         }
+
                         return true
                     }
                 }
-
                 return super.onSingleTapConfirmed(e)
             }
         })
     }
 
-    private fun updateImageWithHighlights(photoBitmap: Bitmap, boundingBox: Rect?) {
-        val mutableBitmap = photoBitmap.copy(Bitmap.Config.ARGB_8888, true)
-        val canvas = Canvas(mutableBitmap)
+    private fun initializeOverlay(bitmap: Bitmap) {
+        overlayBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        overlayCanvas = Canvas(overlayBitmap!!)
+    }
 
+    private fun drawHighlight(boundingBox: Rect?) {
+        boundingBox?.let {
+            val paint = Paint().apply {
+                color = Color.parseColor("#3399FF")
+                style = Paint.Style.FILL
+                alpha = 80
+            }
+            overlayCanvas?.drawRect(boundingBox, paint)
+            updateImage()
+        }
+    }
+
+    private fun clearHighlight(boundingBox: Rect?) {
+        boundingBox?.let {
+            val paint = Paint().apply {
+                color = Color.TRANSPARENT
+                xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+            }
+            overlayCanvas?.drawRect(boundingBox, paint)
+            updateImage()
+        }
+    }
+
+    private fun updateImage() {
+        val combinedBitmap = Bitmap.createBitmap(photoBitmap.width, photoBitmap.height, photoBitmap.config)
+        val canvas = Canvas(combinedBitmap)
+        canvas.drawBitmap(photoBitmap, 0f, 0f, null)
+        overlayBitmap?.let { canvas.drawBitmap(it, 0f, 0f, null) }
+
+        binding.img.setImageBitmap(combinedBitmap)
+    }
+
+    private fun updateImageWithHighlights(bitmap: Bitmap, boundingBoxes: List<Rect>) {
+        val mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val canvas = Canvas(mutableBitmap)
         val paint = Paint().apply {
-            color = Color.parseColor("#663399FF")
+            color = Color.parseColor("#ADD8E6")
             style = Paint.Style.FILL
         }
 
-        boundingBox?.let {
-            canvas.drawRect(it, paint)
+        boundingBoxes.forEach { box ->
+            canvas.drawRect(box, paint)
         }
 
         binding.img.setImageBitmap(mutableBitmap)
@@ -200,8 +243,8 @@ class MainActivity : AppCompatActivity() {
         recognizer.process(image)
             .addOnSuccessListener { scannedText ->
                 this.scannedText = scannedText
-                drawDetectedTextBounds( scannedText)
-                updateImageWithHighlights(photoBitmap,"#8099CCFF")
+//                drawDetectedTextBounds( scannedText)
+//                updateImageWithHighlights(photoBitmap,"#8099CCFF")
                 binding.scannedTv.text = scannedText.text
             }
             .addOnFailureListener { exception ->
