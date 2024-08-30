@@ -15,11 +15,15 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.text.Text
 import java.io.InputStream
+import java.util.jar.Manifest
 
 /**
  * Created by Arun @ak - 14213  on 20/08/24.
@@ -142,3 +146,26 @@ fun Uri.toBitmap(context: Context): Bitmap? {
     }
 }
 
+fun AppCompatActivity.sanitizeTheScreen(){
+    window.decorView.systemUiVisibility = (
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            )
+}
+
+
+fun AppCompatActivity.fullScreen() {
+    window.setFlags(
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+    )
+    window.setFlags(
+        WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN
+    )
+    window.setBackgroundDrawableResource(android.R.color.transparent)
+}
