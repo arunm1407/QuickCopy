@@ -1,11 +1,15 @@
 package com.example.ocr
 
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
@@ -14,6 +18,7 @@ import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -40,20 +45,56 @@ class ScreenCaptureService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    override fun onCreate() {
-        super.onCreate()
-        mediaProjectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-        startForeground(NOTIFICATION_ID, createNotification())
+
+    private fun PackageManager.hasPermission(permission: String, pn: String = packageName): Boolean =
+        checkPermission(permission, pn) == PackageManager.PERMISSION_GRANTED
+
+    private fun PackageManager.hasPermissions(vararg permissions: String): Boolean {
+        val pn = packageName
+        return permissions.all { checkPermission(it, pn) == PackageManager.PERMISSION_GRANTED }
     }
 
 
+    override fun onCreate() {
+        super.onCreate()
+        mediaProjectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        createNotificationChannel()
+        startFfs(NOTIFICATION_ID, createNotification())
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Screen Capture Service"
+            val descriptionText = "Channel for screen capture service notifications"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
         when (intent?.action) {
             ACTION_INIT_CAPTURE -> initScreenCapture()
             ACTION_HANDLE_CAPTURE -> handleScreenCapture(intent)
         }
         return START_NOT_STICKY
+    }
+
+    private fun startFfs(notificationId : Int,notification: Notification){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(
+                notificationId,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+            )
+        } else {
+            startForeground(notificationId, notification)
+        }
     }
 
     private fun createNotification(): Notification {
@@ -74,8 +115,6 @@ class ScreenCaptureService : Service() {
             .addAction(R.drawable.baseline_document_scanner_24, "Capture Screen", pendingIntent)
             .setContentIntent(pendingIntent) // Launch the activity when the notification is tapped
             .build()
-
-
     }
 
 

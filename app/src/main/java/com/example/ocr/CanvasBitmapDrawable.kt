@@ -3,7 +3,7 @@ package com.example.ocr
 import android.graphics.*
 import android.graphics.drawable.Drawable
 
-class CanvasBitmapDrawable(bitmap: Bitmap, private val onInvalidate: (bitmap: Bitmap) -> Unit = {}) : Drawable() {
+class CanvasBitmapDrawable(val bitmap: Bitmap, private val onInvalidate: (bitmap: Bitmap) -> Unit = {}) : Drawable() {
 
     private val highlightPaint = Paint().apply {
         color = Color.parseColor("#3399FF")

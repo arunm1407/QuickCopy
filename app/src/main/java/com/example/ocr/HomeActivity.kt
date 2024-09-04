@@ -54,8 +54,13 @@ class HomeActivity : AppCompatActivity() {
 
     private fun startNotificationPostService() {
         val intent = Intent(this, ScreenCaptureService::class.java)
-        startService(intent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
     }
+
 
     private fun checkAndRequestNotificationPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

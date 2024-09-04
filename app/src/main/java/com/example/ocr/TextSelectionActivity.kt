@@ -52,8 +52,8 @@ class TextSelectionActivity : AppCompatActivity() {
             binding.img.setImageBitmap(bitmap)
         }
         binding.img.scaleType = ImageView.ScaleType.FIT_XY
-        binding.img.setImageBitmap(bitmap)
-        binding.img.invalidate()
+        binding.img.setImageDrawable(drawable)
+        drawable.invalidateSelf()
         processImage(bitmap)
         selectedBoundingBoxes.clear()
     }
@@ -137,7 +137,7 @@ class TextSelectionActivity : AppCompatActivity() {
                             selectedBoundingBoxes.remove(boundingBox)
                             showToast("Deselected: $textToToggle")
                             drawable.clearHighlight(boundingBox)
-                            
+
                         } else {
                             selectedTexts.add(textToToggle)
                             boundingBox?.let {
