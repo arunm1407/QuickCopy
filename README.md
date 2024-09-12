@@ -9,7 +9,8 @@ Note: The secular flag will not be effective.
 
 ## Preview
 
-![QuickCopy demo](https://github.com/arunm1407/QuickCopy/blob/main/assets/images/image.jpg?raw=true)
+![QuickCopy demo](https://github.com/arunm1407/QuickCopy/blob/main/assets/images/image_1.jpg?raw=true)
+![QuickCopy demo](https://github.com/arunm1407/QuickCopy/blob/main/assets/images/image_2.jpg?raw=true)
 
 
 ## Features
