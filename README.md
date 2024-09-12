@@ -1,60 +1,105 @@
-# Easy Copy
+<h1 align="center">Easy Copy</h1>
 
-## Description
-Enhance user experience by enabling fast and seamless text copying through OCR (Optical Character Recognition) scanning.
-This functionality will allow users to extract text from any app, image, or document, including sources where text copying is typically restricted.
+<div align="center">
+  <strong>Text Extraction Simplified</strong>
+</div>
+<div align="center">
+  Instantly extract and copy text from any app, image, or document with seamless OCR scanning.
+</div>
+<br />
+<div align="center">
+  <img src="https://github.com/arunm1406/QuickCopy/blob/easy_copy_akm/assests/images/image_2.jpg" width="300px" />
+</div>
+<br />
 
-Note: The secular flag will not be effective.
+## About Easy Copy
 
+Enhance your user experience with fast and seamless text extraction through OCR (Optical Character Recognition). Our app empowers you to effortlessly capture and copy text from any app, image, or document, even from sources where traditional text copying is restricted.
 
-## Preview
+> **Note:** The "secular" flag will not be applicable.
 
+## Screenshots
 
-![QuickCopy demo](https://github.com/arunm1406/QuickCopy/blob/easy_copy_akm/assests/images/image_1.jpg?raw=true)
-![QuickCopy demo](https://github.com/arunm1406/QuickCopy/blob/easy_copy_akm/assests/images/image_2.jpg?raw=true)
+| Home  | Settings |
+|:-----:|:--------:|
+| <img src="https://github.com/arunm1406/QuickCopy/blob/easy_copy_akm/assests/images/image_2.jpg" width="300"/> | <img src="https://github.com/arunm1406/QuickCopy/blob/easy_copy_akm/assests/images/image_1.jpg" width="300"/> |
 
+## What’s New in Easy Copy
+
+### 🎨 Embracing Material Design 3 with Jetpack Compose
+We’ve upgraded to Material Design 3, delivering a sleek, modern look and a more intuitive user experience with Jetpack Compose.
+
+### 📚 Enhanced OCR with ML Kit
+Our OCR is now powered by the latest ML Kit updates, offering improved text recognition and extraction.
+
+### 🌐 Offline-First Experience
+Access key features even when offline. We’ve optimized the app for offline functionality.
+
+### 💯 Completely Free
+Easy Copy remains free to use, offering powerful features at no cost.
+
+Explore these new features and experience an enhanced Easy Copy today!
 
 ## Features
 
-#### OCR Text Extraction
+### 📜 OCR Text Extraction
+- Extract text from images, screenshots, and documents.
+- Supports multiple languages and fonts for accurate recognition.
 
-Extract text from images, screenshots, and documents.
-Support for multiple languages and fonts for accurate recognition.
-#### Text Copying
+### 📋 Text Copying
+- Copy text from apps or sources that restrict copying.
+- Bypass restrictions unless FLAG_SECURE is applied.
 
-Universal copying from apps or sources that restrict text copying.
-Bypass restrictions unless FLAG_SECURE is applied.
-#### Overlay Functionality
+### 🌟 Overlay Functionality
+- Capture and extract text without switching apps using our overlay feature.
 
-Overlay feature for capturing and extracting text without switching apps.
-#### Notification Access
+### 🔔 Notification Access
+- Quickly access the app from the notification area and launch it on top of other apps.
 
-Fast app access from the notification area, allowing launch on top of other apps.
-#### Clipboard Integration
+### 📑 Clipboard Integration
+- Automatically copy extracted text to the clipboard with a single button press.
 
-Automatically copy extracted text to the system clipboard via a button.
-#### Selection Order
+### 🔄 Selection Order
+- Choose manual or smart text selection to preserve the original sequence or physical position.
 
-Manual and smart text selection to retain the original sequence or physical position.
-#### Scroll Mode
+### ⬇️ Scroll Mode
+- Smart and manual scrolling options to trigger OCR processing.
 
-Smart and manual scrolling options to trigger OCR processing.
-#### Text Selection Mode
+### ✏️ Text Selection Mode
+- Default to selecting all text or manually choose the text you need.
 
-Default selection of all text or manual selection by the user.
-#### Preview Text Zones
+### 👀 Preview Text Zones
+- Preview text zones before final extraction for confirmation.
 
-Preview text zones before final extraction for user confirmation.
-#### Shortcuts
-Double-tap gesture for quick actions.
+### 🖱️ Shortcuts
+- Double-tap gesture for quick actions.
 
+Explore these features to get the most out of Easy Copy!
 
+## Official Documentation
 
-
+- [Google ML Kit](https://developers.google.com/ml-kit/vision/text-recognition/v2/android)
+- [Firebase ML Kit](https://firebase.google.com/docs/ml-kit/android/recognize-text)
 
 ## Installation
+
 To install this project, follow these steps:
 
 1. Clone the repository:
    ```sh
    git clone https://github.com/arunm1406/QuickCopy.git
+
+
+Contributor
+------
+* ArunKumar M - [LinkedIn](https://www.linkedin.com/in/arun-kumar-m-333560103/)
+* Arun Sudharsan - [LinkedIn](https://www.linkedin.com/in/arunm619/)
+
+
+## Please Share & Star the repository to keep us motivated.
+  <a href = "https://github.com/arunm1406?tab=repositories">
+  </a>
+
+License
+-------
+None at the moment
