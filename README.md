@@ -9,9 +9,7 @@ Note: The secular flag will not be effective.
 
 ## Preview
 
-<p><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="32%" /> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="32%" /></p>
-
-![QuickCopy demo](https://github.com/arunm1407/QuickCopy/blob/easy_copy_akm/assets/images/image.jpg?raw=true)
+![QuickCopy demo](https://github.com/arunm1407/QuickCopy/blob/main/assets/images/image.jpg?raw=true)
 
 
 ## Features
