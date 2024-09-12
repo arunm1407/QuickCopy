@@ -6,32 +6,26 @@ import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ocr.util.fullScreen
 import com.example.ocr.util.sanitizeTheScreen
 
 class ScreenCaptureActivity : AppCompatActivity() {
-
     companion object {
         private const val REQUEST_MEDIA_PROJECTION = 1
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            sanitizeTheScreen()
-            fullScreen()
-            startScreenCapture()
+        sanitizeTheScreen()
+        fullScreen()
+        startScreenCapture()
     }
-
 
     private fun startScreenCapture() {
         val mediaProjectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION)
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -42,7 +36,11 @@ class ScreenCaptureActivity : AppCompatActivity() {
                     putExtra(ScreenCaptureService.EXTRA_RESULT_CODE, resultCode)
                     putExtra(ScreenCaptureService.EXTRA_RESULT_INTENT, data)
                 }
-                startService(intent)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(intent)
+                } else {
+                    startService(intent)
+                }
             }
             finish()
         }

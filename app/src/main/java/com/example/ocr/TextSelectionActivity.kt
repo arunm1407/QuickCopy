@@ -52,8 +52,8 @@ class TextSelectionActivity : AppCompatActivity() {
             binding.img.setImageBitmap(bitmap)
         }
         binding.img.scaleType = ImageView.ScaleType.FIT_XY
-        binding.img.setImageDrawable(drawable)
-        drawable.invalidateSelf()
+        binding.img.setImageBitmap(bitmap)
+        binding.img.invalidate()
         processImage(bitmap)
         selectedBoundingBoxes.clear()
     }

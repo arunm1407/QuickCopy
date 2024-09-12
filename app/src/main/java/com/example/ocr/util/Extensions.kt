@@ -17,13 +17,11 @@ import android.os.Vibrator
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.text.Text
 import java.io.InputStream
-import java.util.jar.Manifest
 
 /**
  * Created by Arun @ak - 14213  on 20/08/24.
@@ -168,4 +166,10 @@ fun AppCompatActivity.fullScreen() {
         WindowManager.LayoutParams.FLAG_FULLSCREEN
     )
     window.setBackgroundDrawableResource(android.R.color.transparent)
+}
+
+ fun setClickListeners(vararg viewActions: Pair<View, () -> Unit>) {
+    viewActions.forEach { (view, action) ->
+        view.setOnClickListener { action() }
+    }
 }

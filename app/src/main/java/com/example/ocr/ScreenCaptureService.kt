@@ -8,7 +8,6 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
@@ -43,21 +42,9 @@ class ScreenCaptureService : Service() {
     private var imageReader: ImageReader? = null
     private var isTextSelectionHandled = false
 
-    override fun onBind(intent: Intent?): IBinder? = null
-
-
-    private fun PackageManager.hasPermission(permission: String, pn: String = packageName): Boolean =
-        checkPermission(permission, pn) == PackageManager.PERMISSION_GRANTED
-
-    private fun PackageManager.hasPermissions(vararg permissions: String): Boolean {
-        val pn = packageName
-        return permissions.all { checkPermission(it, pn) == PackageManager.PERMISSION_GRANTED }
-    }
-
-
     override fun onCreate() {
         super.onCreate()
-        mediaProjectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+//        mediaProjectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         createNotificationChannel()
         startFfs(NOTIFICATION_ID, createNotification())
     }
@@ -79,8 +66,8 @@ class ScreenCaptureService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         when (intent?.action) {
-            ACTION_INIT_CAPTURE -> initScreenCapture()
-            ACTION_HANDLE_CAPTURE -> handleScreenCapture(intent)
+//            ACTION_INIT_CAPTURE -> initScreenCapture()
+//            ACTION_HANDLE_CAPTURE -> handleScreenCapture(intent)
         }
         return START_NOT_STICKY
     }
@@ -105,23 +92,16 @@ class ScreenCaptureService : Service() {
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Easy Copy")
-            .setContentText("Copy Made Simple ! ")
+            .setContentText("Copy Made Simple!")
             .setSmallIcon(R.drawable.baseline_document_scanner_24)
             .setColor(ContextCompat.getColor(this, R.color.blue))
             .setStyle(NotificationCompat.BigTextStyle().bigText("Copy Made Simple!"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
-            .setOngoing(false)
+            .setOngoing(true)
             .addAction(R.drawable.baseline_document_scanner_24, "Capture Screen", pendingIntent)
-            .setContentIntent(pendingIntent) // Launch the activity when the notification is tapped
+            .setContentIntent(pendingIntent)
             .build()
-    }
-
-
-    private fun initScreenCapture() {
-        val intent = Intent(this, ScreenCaptureActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
     }
 
     private fun handleScreenCapture(intent: Intent) {
@@ -207,11 +187,25 @@ class ScreenCaptureService : Service() {
         }
     }
 
-    override fun onDestroy() {
+    private fun releaseResources() {
         virtualDisplay?.release()
+        virtualDisplay = null
+
         imageReader?.close()
+        imageReader = null
+
+//        mediaProjection?.unregisterCallback(mediaProjectionCallback)
         mediaProjection?.stop()
+        mediaProjection = null
+
+        isTextSelectionHandled = false
+    }
+
+    override fun onDestroy() {
+        releaseResources()
         stopForeground(true)
         super.onDestroy()
     }
+
+    override fun onBind(intent: Intent?): IBinder? = null
 }

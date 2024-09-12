@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -28,6 +29,8 @@ android {
             )
         }
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -35,6 +38,7 @@ android {
 
     buildFeatures{
         viewBinding = true
+        compose = true
     }
 
     kotlinOptions {
@@ -54,13 +58,17 @@ dependencies {
     implementation(libs.play.services.mlkit.text.recognition)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
 
+    // Compose preference
+    implementation(libs.zhanghai.compose.preference)
 }

@@ -73,6 +73,7 @@ class CanvasBitmapDrawable(val bitmap: Bitmap, private val onInvalidate: (bitmap
             val originalSection = Bitmap.createBitmap(backupBitmap, it.left, it.top, it.width(), it.height())
             overlayCanvas.drawBitmap(originalSection, it.left.toFloat(), it.top.toFloat(), null)
             originalSection.recycle()
+            overlayCanvas.drawRect(it, dimHighlightPaint)
             updateImage()
         }
     }

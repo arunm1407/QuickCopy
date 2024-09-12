@@ -81,6 +81,7 @@ class HomeActivity : AppCompatActivity() {
             START_FOREGROUND_SERVICE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startNotificationPostService()
+                    finish()
                 } else {
                     Toast.makeText(this, "Notification permission required to continue", Toast.LENGTH_SHORT).show()
                     binding.toggle.isChecked = false

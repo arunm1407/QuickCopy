@@ -45,10 +45,10 @@ class HomeScreen : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             val viewPager = binding.viewPager
             when (item.itemId) {
+                R.id.home ->  viewPager.currentItem = 0
                 R.id.history -> viewPager.currentItem = 1
-                R.id.support -> viewPager.currentItem = 4
                 R.id.settings -> viewPager.currentItem = 2
-                else -> viewPager.currentItem = 0
+                R.id.support -> viewPager.currentItem = 3
             }
             true
         }
