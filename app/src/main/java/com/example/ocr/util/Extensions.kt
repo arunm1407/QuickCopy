@@ -1,11 +1,14 @@
 package com.example.ocr.util
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
+import android.app.Notification
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
@@ -14,16 +17,24 @@ import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.google.mlkit.vision.text.Text
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.io.InputStream
-import java.util.jar.Manifest
 
 /**
  * Created by Arun @ak - 14213  on 20/08/24.
@@ -168,4 +179,58 @@ fun AppCompatActivity.fullScreen() {
         WindowManager.LayoutParams.FLAG_FULLSCREEN
     )
     window.setBackgroundDrawableResource(android.R.color.transparent)
+}
+
+ fun setClickListeners(vararg viewActions: Pair<View, () -> Unit>) {
+    viewActions.forEach { (view, action) ->
+        view.setOnClickListener { action() }
+    }
+}
+
+fun NotificationManagerCompat.checkPermissionAndNotify(
+    context: Context,
+    id: Int,
+    notification: Notification,
+    onEnd: () -> Unit
+) = runCatching {
+    if (ActivityCompat.checkSelfPermission(context, POST_NOTIFICATIONS) == PERMISSION_GRANTED) {
+        notify(id, notification)
+        onEnd()
+    }
+}
+
+fun <T> LifecycleOwner.collectFlowWithLifecycle(
+    flow: Flow<T>,
+    collector: suspend (T) -> Unit,
+    state: Lifecycle.State = Lifecycle.State.STARTED,
+) {
+    lifecycleScope.launch {
+        flow.flowWithLifecycle(lifecycle, state)
+            .onEach { collector(it) }
+            .launchIn(this)
+    }
+}
+
+fun Context.shortToast(message: String, noGravity: Boolean = false) {
+    toast(message, Toast.LENGTH_SHORT, noGravity)
+}
+
+fun Context.longToast(message: String, noGravity: Boolean = false) {
+    toast(message, Toast.LENGTH_LONG, noGravity)
+}
+
+fun Context.shortToast(resId: Int, noGravity: Boolean = false) {
+    shortToast(this.getString(resId), noGravity)
+}
+
+fun Context.longToast(resId: Int, noGravity: Boolean = false) {
+    longToast(this.getString(resId), noGravity)
+}
+
+fun Context.toast(message: String, toastDuration: Int, noGravity: Boolean) {
+    val warningToast = Toast.makeText(this, message, toastDuration)
+    if (!noGravity) {
+        warningToast.setGravity(Gravity.CENTER, 0, 0)
+    }
+    warningToast.show()
 }

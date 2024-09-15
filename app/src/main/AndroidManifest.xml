@@ -2,45 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission
-        android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
-        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
-
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <!-- For SDK 34 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
     <application
-        android:name=".EasyCopyApp"
+        android:name=".application.EasyCopyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_copy"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_copy"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ocr"
         tools:targetApi="31">
         <activity
-            android:name=".HomeScreen"
+            android:name=".screens.HomeActivity"
             android:exported="true">
-        </activity>
-
-        <activity
-            android:name=".HomeActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Ocr">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
@@ -48,19 +31,17 @@
         </activity>
 
         <service
-            android:name=".ScreenCaptureService"
+            android:name=".screens.screenCapture.service.ScreenCaptureService"
             android:exported="false"
             android:foregroundServiceType="mediaProjection"
-           />
+            />
 
         <activity
-            android:name=".TextSelectionActivity"
+            android:name=".screens.screenCapture.TextSelectionActivity"
             android:exported="true" />
+
         <activity
-            android:name=".ScreenCapturePermissionActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ScreenCaptureActivity"
+            android:name=".screens.screenCapture.ScreenCaptureActivity"
             android:exported="true"
             android:theme="@style/TransparentTheme"
             />
