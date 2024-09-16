@@ -1,7 +1,44 @@
+<!-- res/values-night/themes.xml (Dark theme) -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Ocr" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Navigation bar color. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+    </style>
+
+    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="colorControlActivated">@color/md_theme_dark_primary</item>
+        <item name="colorControlNormal">@color/md_theme_dark_onSurfaceVariant</item>
+    </style>
+
+    <style name="ThemeOverlay.App.NavigationBarView.Blue" parent="">
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorPrimaryVariant">@color/md_theme_dark_primaryContainer</item>
     </style>
 </resources>

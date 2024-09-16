@@ -44,9 +44,12 @@
     </string>
     <string name="easy_copy_quick_note">To use Easy Copy, simply tap the \'Activate Easy Copy\' button. Once activated, you can long-press on any text within the app to copy it to your clipboard. This feature works seamlessly acros...</string>
     <string name="activate_easy_copy">Activate Easy Copy</string>
+    <string name="deactivate_easy_copy">Deactivate Easy Copy</string>
     <string name="easy_copy">Easy Copy</string>
     <string name="home">Home</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
     <string name="support">Support</string>
+    <string name="notification_permission_required_to_continue">Notification permission required to continue</string>
+    <string name="permission_denied_for_screen_capture">Permission denied for screen capture</string>
 </resources>

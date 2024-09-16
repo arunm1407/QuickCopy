@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="rectSelector" format="reference" />
+    <declare-styleable name="CustomIconTextView">
+        <!-- Standard attributes from TextView -->
+        <attr name="android:text" format="string"/>
+        <attr name="android:drawableStart" format="reference"/>
+        <attr name="helperText" format="string"/>
+
+        <!-- Additional attributes can be defined here if needed -->
+    </declare-styleable>
+
+    <declare-styleable name="ColorIconsImageView">
+        <attr name="iconBackgroundColor" format="color" />
+        <attr name="colorIconColor" format="color" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+</resources>
